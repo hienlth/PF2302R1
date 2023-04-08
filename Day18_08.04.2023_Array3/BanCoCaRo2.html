@@ -6,6 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .cell {
+            border: 1px blue dashed;
+            padding: 5px;
+            width: 30px;
+            height: 30px;
+            display: inline-block;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
@@ -23,13 +33,24 @@
             }
         }
 
+        let luotDi = "X";
+        function processCellClick(x, y) {
+            //alert(`Click cell(${x}, ${y})`);
+            if (board[x][y] === ".") {
+                board[x][y] = luotDi;
+                displayBoard();
+                luotDi = luotDi === "X" ? "O" : "X";
+            }
+        }
+
         function displayBoard() {
             let data = '';
             for (let i = 0; i < N; i++) {
+                data += '<div>';
                 for (let j = 0; j < M; j++) {
-                    data += board[i][j] + "&nbsp;&nbsp;";
+                    data += `<div class="cell" onclick="processCellClick(${i}, ${j})">${board[i][j]}</div>`;
                 }
-                data += '<br>';
+                data += '</div>';
             }
             document.getElementById("banco").innerHTML = data;
         }
