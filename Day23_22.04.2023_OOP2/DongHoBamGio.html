@@ -12,21 +12,24 @@
     <h3 id="dongHo">00:00:00</h3>
     <button type="button" id="start" onclick="handleStart()">START</button>
     <button type="button" id="lap">LAP</button>
-    <button type="button" id="stop">STOP</button>
+    <button type="button" id="stop" onclick="handleStop()">STOP</button>
     <script>
         let myInterval = null;
         let btnStart = document.getElementById("start");
         let btnLap = document.getElementById("lap");
         let btnStop = document.getElementById("stop");
         let dongHo = document.getElementById("dongHo");
-        btnStop.disabled = true;
-        btnLap.disabled = true;
         let startTime = null;
+        setRunning(false);
+
+        function setRunning(value) {
+            btnStart.disabled = value;
+            btnStop.disabled = !value;
+            btnLap.disabled = !value;
+        }
 
         function handleStart() {
-            btnStart.disabled = true;
-            btnStop.disabled = false;
-            btnLap.disabled = false;
+            setRunning(true);
             startTime = new Date();
             myInterval = setInterval(displayTime, 100);
         }
@@ -34,6 +37,11 @@
         function displayTime() {
             let timeDistance = new Date(new Date() - startTime);
             dongHo.innerHTML = timeDistance.getHours() + ':' + timeDistance.getMinutes() + ':' + timeDistance.getSeconds() + '.' + timeDistance.getMilliseconds();
+        }
+
+        function handleStop() {
+            clearInterval(myInterval);
+            setRunning(false);
         }
     </script>
 </body>
