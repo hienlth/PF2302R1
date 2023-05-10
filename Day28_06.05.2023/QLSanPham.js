@@ -1,13 +1,25 @@
 class SanPham {
-  constructor(ma, ten, gia, hinh) {
-    this.maSp = ma;
+  constructor(loai, ten, gia, hinh) {
+    this.maSp = uuidv4();
+    this.loaiSp = loai;
     this.tenSp = ten;
     this.gia = gia;
     this.hinh = hinh;
   }
 }
 
+function uuidv4() {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+    const r = (Math.random() * 16) | 0,
+      v = c == "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+
 const SAN_PHAM_KEY = "danhSachSanPham";
+
+const dsLoai = ["Điện thoại", "Máy tính bảng", "Laptop"];
+
 class CuaHang {
   constructor(ds) {
     this.sanPhams = ds;
@@ -83,4 +95,17 @@ class CuaHang {
       this.GhiDuLieu();
     }
   }
+}
+
+let danhSachSanPham = new CuaHang([]);
+
+//Đăng ký sự kiện
+function luuThemMoi() {
+  //check validation first
+  let loai = document.getElementById("loaisp").value;
+  let tensp = document.getElementById("tenSanPham").value;
+  let gia = parseInt(document.getElementById("donGia").value);
+  let hinh = document.getElementById("linkHinh").value;
+  let sp = new SanPham(loai, tensp, gia, hinh);
+  danhSachSanPham.ThemSanPham(sp);
 }
